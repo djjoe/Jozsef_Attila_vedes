@@ -24,7 +24,11 @@ public:
 	void relation( osmium::Relation& relation ) {
 		const char* bus = relation.tags()["route"];
 		if(bus && !strcmp(bus, "bus")) {
-			std::cout << relation.get_value_by_key("ref");
+			const char* name = relation.tags().get_value_by_key("ref");
+			if(!name) name = relation.tags().get_value_by_key("name");
+			
+			std::cout << name;
+			
 			osmium::unsigned_object_id_type temp1, temp2;
 			int db = 0;
 			for( auto &member : relation.members()){
