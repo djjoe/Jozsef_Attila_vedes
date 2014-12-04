@@ -24,7 +24,7 @@ A program C++-ban készült, CMake projectként.
 -Brúnó:
 OSM alapú megjelenítő a Petra feladathoz, Javában, Maven projectként, JXMapViewer2 használatával.
 
--Megj:
+-Megjelenítő:
 Saját megjelenítő OpenGL API segítségével. A GLUT (OpenGL Utility Toolkit) kezelését a FreeGLUT végzi.
 A program argumentumként megadott térképet (.osm) kirajzolja a képernyőre: az Osmium könyvtár segítségével megtörténik a beolvasása a node-oknak és a way-eknek, majd meghatározzuk hogy hol is helyezkedjen el majd a térkép, a képernyőn, ha ez megtörtént, akkor az FreeGLUT segítségével betöltjük az ablakot, majd megjelenítjük a képet.
 Az alkalmazásban lehet mozogni a bal egérgombbal és zoomolni az egér görgőjének segítségével.
