@@ -39,8 +39,9 @@ public class Gedeon {
                     else if(db != 0 && member.type.equals("node")) temp2 = member.ref;
                 }
                 
-                System.out.println(relation.tags.get("ref") + " (" + 
-                        map.get(temp1) + "-" + map.get(temp2) + ")");
+                String name = relation.tags.get("ref");
+                if(name == null) name = relation.tags.get("name");
+                System.out.println(name + " (" + map.get(temp1) + "-" + map.get(temp2) + ")");
                 
                 for(Member member : relation.members)
                     if(member.type.equals("node")) System.out.println(" " + lats.get(member.ref) + ", " + lons.get(member.ref) + "  " + map.get(member.ref));
