@@ -48,30 +48,17 @@ import java.util.Scanner;
 import java.awt.geom.Point2D;
 import java.awt.Graphics2D;
 
-
-/**
- * A simple sample application that shows
- * a OSM map of Europe
- * @author Martin Steiger
- */
 public class Koppany
 {
-    /**
-     * @param args the program args (ignored)
-     */
-
     public static void main(String[] args)
     {
-            // Create a TileFactoryInfo for OpenStreetMap
             TileFactoryInfo info = new OSMTileFactoryInfo();
             DefaultTileFactory tileFactory = new DefaultTileFactory(info);
             tileFactory.setThreadPoolSize(8);
 
-            // Setup local file cache
             File cacheDir = new File(System.getProperty("user.home") + File.separator + ".jxmapviewer2");
             LocalResponseCache.installResponseCache(info.getBaseURL(), cacheDir, false);
 
-            // Setup JXMapViewer
             final JXMapViewer mapViewer = new JXMapViewer();
             mapViewer.setTileFactory(tileFactory);
 
@@ -124,15 +111,12 @@ public class Koppany
                 }
             }
 
-            // Create a track from the geo-positions
             final RoutePainter routePainter = new RoutePainter(track);
 
-            // Set the focus
             mapViewer.zoomToBestFit(new HashSet<GeoPosition>(track), 0.9);
             mapViewer.setZoom(2);
             mapViewer.setAddressLocation(trackt.get(0).getPosition());
 
-            // Create waypoints from the geo-positions
             Set<Waypoint> waypoints = new HashSet<Waypoint>(trackt);
 
             final WaypointPainter waypointPainter = new WaypointPainter();
@@ -140,14 +124,10 @@ public class Koppany
             
             
             final JFrame frame = new JFrame();
-            
-            //ClassLoader classLoader = frame.getClass().getClassLoader();
-            //final Image wp = new ImageIcon(Koppany.class.getResource("ikon.png")).getImage();
-            
             final Image wp = new ImageIcon(Koppany.class.getResource("ikon.png")).getImage();
             
             waypointPainter.setRenderer(new WaypointRenderer<Waypoint>() {
-                //final Image wp = new ImageIcon(getClass().getResource("resources/ikon.png")).getImage();
+
                 @Override
                 public void paintWaypoint(java.awt.Graphics2D g2d, JXMapViewer jXMapV, Waypoint w) {
                     Point2D point = jXMapV.getTileFactory().geoToPixel(
@@ -166,8 +146,6 @@ public class Koppany
             CompoundPainter<JXMapViewer> painter = new CompoundPainter<JXMapViewer>(painters);
             mapViewer.setOverlayPainter(painter);
 
-
-            // Add interactions
             MouseInputListener mia = new PanMouseInputListener(mapViewer);
             mapViewer.addMouseListener(mia);
             mapViewer.addMouseMotionListener(mia);
@@ -186,9 +164,9 @@ public class Koppany
             Collections.sort(items);
 
             final JComboBox combobox = new JComboBox(items);
-            combobox.setMaximumRowCount(10);            
+            combobox.setMaximumRowCount(10);  
+            combobox.setSelectedItem(nev);
 
-            // Display the viewer in a JFrame
             frame.setLayout(new BorderLayout());
             frame.setSize(800, 600);
 
@@ -205,7 +183,6 @@ public class Koppany
                 {
                     if (ItemEvent.SELECTED == itemEvent.getStateChange())
                     {
-                    //System.out.println("Item: " + itemEvent.getItem());
                         String nev = (String) itemEvent.getItemSelectable().getSelectedObjects()[0];
                         
                         List<Waypoint> trackt = new ArrayList<Waypoint>();
@@ -229,35 +206,7 @@ public class Koppany
                 }
             });            
             
-
-            mapViewer.addPropertyChangeListener("zoom", new PropertyChangeListener()
-            {
-                    @Override
-                    public void propertyChange(PropertyChangeEvent evt)
-                    {
-                            updateWindowTitle(frame, mapViewer);
-                    }
-            });
-
-            mapViewer.addPropertyChangeListener("center", new PropertyChangeListener()
-            {
-                    @Override
-                    public void propertyChange(PropertyChangeEvent evt)
-                    {
-                            updateWindowTitle(frame, mapViewer);
-                    }
-            });
-
-            updateWindowTitle(frame, mapViewer);
-    }
-
-    protected static void updateWindowTitle(JFrame frame, JXMapViewer mapViewer)
-    {
-            double lat = mapViewer.getCenterPosition().getLatitude();
-            double lon = mapViewer.getCenterPosition().getLongitude();
-            int zoom = mapViewer.getZoom();
-
-            frame.setTitle(String.format("JXMapviewer2 Example 3 (%.2f / %.2f) - Zoom: %d", lat, lon, zoom)); 
-    }	
-	
+            
+	    frame.setTitle("Koppany"); 
+	}
 }
