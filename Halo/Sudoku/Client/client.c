@@ -142,23 +142,34 @@ int main(int argc, char *argv[]) {
 void drawGrid(char* buffer)
 {
 	int i, j, x;
-	printf("╔═══════╦═══════╦═══════╗\n");
+	printf("\033[1;31m╔═══════╦═══════╦═══════╗\033[0m\n");
 	for(i = 0; i<9; i++)
 	{
 		if(i == 3 || i == 6)
-			printf("╠═══════╬═══════╬═══════╣\n");
-		printf("║ ");
+			printf("\033[1;31m╠═══════╬═══════╬═══════╣\033[0m\n");
+		printf("\033[1;31m║\033[0m ");
 		for(j = 0; j<9; j++)
 		{
-			char c = buffer[i*9+j] == '0' ? ' ' : buffer[i*9+j];
-			if(j % 3 == 2)
-				printf("%c ║ ", c);
-			else
-				printf("%c ", c);
+			char c = buffer[i*9+j] == '0' ? ' ' : (char)buffer[i*9+j];
+			if(c != ' ')
+			{
+				if(j % 3 == 2)
+					printf("%c \033[1;31m║\033[0m ", c);
+				else
+					printf("%c ", c);
+			}
+			else 
+			{
+				c = buffer[i*9+j + 81] == '0' ? ' ' : (char)buffer[i*9+j + 81];
+				if(j % 3 == 2)
+					printf("\033[1;33m%c\033[0m \033[1;31m║\033[0m ", c);
+				else
+					printf("\033[1;33m%c\033[0m ", c);
+			}
 		}
 		printf("\n");
 	}
-	printf("╚═══════╩═══════╩═══════╝\n");
+	printf("\033[1;31m╚═══════╩═══════╩═══════╝\033[0m\n");
 }
 void clearStdin()
 {	

@@ -197,7 +197,9 @@ int lepes(int client, int* start, int* user, int* on)
 	else
 	{
 		for(n = 0; n<81; n++)
-			buffer[n] = user[n]+48;
+			buffer[n] = start[n]+48;
+		for(n = 81; n<162; n++)
+			buffer[n] = user[n-81]+48;
 		buffer[n] = '\0';
 	}
 	n = send(client, buffer, strlen(buffer), 0);
