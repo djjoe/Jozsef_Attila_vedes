@@ -7,7 +7,6 @@
 #include <string.h>
 
 void drawGrid(char* buffer);
-void clearStdin();
 
 int main(int argc, char *argv[]) {
 	int sockfd, portno, n;
@@ -15,15 +14,16 @@ int main(int argc, char *argv[]) {
 	struct hostent *server;
 
 	char buffer[256];
-
-	if (argc < 1)
-	{
-		fprintf(stderr,"usage %s hostname port\n", argv[0]);
-		exit(0);
-	}
 	
-	portno = atoi(argv[2]);
-
+	if (argc < 2)
+	{
+		server = gethostbyname("127.0.0.1");
+		portno = 8000;
+	} else 
+	{
+		server = gethostbyname(argv[1]);
+		portno = atoi(argv[2]);
+	}
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
    
 	if (sockfd < 0)
@@ -31,7 +31,6 @@ int main(int argc, char *argv[]) {
 		perror("ERROR opening socket");
 		exit(1);
 	}
-	server = gethostbyname(argv[1]);
    
 	if (server == NULL) 
 	{
@@ -72,13 +71,11 @@ int main(int argc, char *argv[]) {
 			int command;
 			drawGrid(buffer);
 			printf("Válasszon egy műveletet:\n\t1. Kitöltés\n\t2. Passz\n\t3. Törlés\n\t4. Felad\n");
-			clearStdin();
 			scanf("%d", &command);
 			if(command == 1)
 			{
 				int a, b, c;
 				printf("Adja meg rendre a sor és oszlop számát, illetve az értéket\n");
-				clearStdin();
 				scanf("%d %d %d", &a, &b, &c);
 				if(a > 0 && b > 0 && c > 0 && a < 10 && b < 10 && c < 10)
 				{
@@ -107,7 +104,6 @@ int main(int argc, char *argv[]) {
 			{
 				int a, b;
 				printf("Adja meg rendre a sor és oszlop számát!\n");
-				clearStdin();
 				scanf("%d %d", &a, &b);
 				if(a > 0 && b > 0 && a < 10 && b < 10)
 				{
@@ -170,8 +166,4 @@ void drawGrid(char* buffer)
 		printf("\n");
 	}
 	printf("\033[1;31m╚═══════╩═══════╩═══════╝\033[0m\n");
-}
-void clearStdin()
-{	
-	while(getchar() != '\n');
 }

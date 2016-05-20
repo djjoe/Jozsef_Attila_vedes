@@ -5,6 +5,8 @@
 #include <string.h>
 #include <time.h>
 
+#define NUMBER_OF_FIELDS 70
+
 void initMatrices(int* start, int* user);
 int validMatrix(int* user);
 void writeFail(int n);
@@ -91,7 +93,7 @@ void initMatrices(int* start, int* user)
 	for(i = 0; i<81; i++)
 		fscanf(f, "%d", &start[i]);
 	fclose(f);
-	for(i = 0; i<81-db; i++)
+	for(i = 0; i<81-NUMBER_OF_FIELDS; i++)
 	{
 		row = rand()%9;
 		col = rand()%9;
